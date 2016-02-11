@@ -1,0 +1,13 @@
+---
+contentdir: "content"
+layoutdir: "layouts"
+publishdir: "public"
+taxonomies:
+  category: "categories"
+  tag: "tags"
+  series: "series"
+baseurl: "http://arnavk.github.io/"
+title: "Arnav Khare"
+canonifyurls: true
+theme: "hugo_theme_beg"
+...
