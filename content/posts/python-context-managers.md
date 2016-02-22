@@ -1,6 +1,6 @@
 ---
-lastmod:     2016-02-10
-date:        "2016-02-10"
+lastmod:     2016-02-22
+date:        "2016-02-20"
 title:       "Python in the real world: Context Managers"
 description: "Using examples to explore how Python Context Managers are used in the real world."
 tags:        [ "python", "programming", "examples" ]
@@ -51,28 +51,49 @@ The expression following the `with` keyword should return an object that follows
 
 The object returned must follow the **Context Manager protocol** which specifies two special methods, `__enter__` and `__exit__`.
 
-The return value of the `cm.__enter__()` is assigned to the target specified in the `as` phrase. This is optional. But `__exit__` is still called on the original Context Manager object, not the object returned by `__enter__`.
+Some important points to remember are:
+
+* `__enter__` should return an object that is assigned to the variable after `as`. By default it is `None`, and is optional. A common pattern is to return `self` and keep the functionality required within the same class.
+* `__exit__` is called on the original Context Manager object, not the object returned by `__enter__`.
+* If an error is raised in `__init__` or `__enter__` then the code block is never executed and `__exit__` is not called.
+* Once the code block is entered, `__exit__` is always called, even if an exception is raised in the code block. 
+* If `__exit__` returns `True`, the exception is suppressed.
+
 
 ~~~python
->>> class ContextManager(object):
-...     def __init__(self):
-...             print '__init__ called'
-...     def __enter__(self):
-...             print '__enter__ called'
-...             return self
-...     def __exit__(self, exc_type, exc_value, tb):
-...             print '__exit__ called'
-... 
->>> with ContextManager() as obj:
-...     print 'do work'
-... 
-__init__ called
-__enter__ called
-do work
-__exit__ called
+class CManager(object):
+    def __init__(self):
+        print '__init__'
+    
+    def __enter__(self):
+        print '__enter__'
+        return self
+    
+    def __exit__(self, type, value, traceback):
+        print '__exit__:', type, value
+        return True  # Suppress this exception
+
+    def __del__(self):
+        print '__del__', self
+
+with CManager() as c:
+    print 'doing something with c:', c
+    raise RuntimeError()
+    print 'finished doing something'
+print 'done something'
+
+"""
+# outputs:
+__init__
+__enter__
+doing something with c: <__main__.CManager object at 0x103fd8ed0>
+__exit__: <type 'exceptions.RuntimeError'> 
+done something
+"""
 ~~~
 
-Simple context managers can be written as Generators:
+
+Simple context managers can also be written using Generators and the `contextmanager` decorator:
 
 ~~~python
 from contextlib import contextmanager
@@ -144,7 +165,7 @@ with pytest.raises(ValueError):
     int('hello')
 ~~~
 
-## Seting up mocks before testing
+## Setting up mocks before testing
 
 ~~~python
 with mock.patch('a.b'):
