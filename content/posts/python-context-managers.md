@@ -13,9 +13,11 @@ draft:       false
 
 
 
-Context Managers are a language feature unique to Python. They are usually used for allocation and releasing of resources, but that is not their only use-case. They are useful for factoring out common setup and teardown code, or any pair of operations that need to be performed before or after a procedure.
+Context Managers are one of the core language features that make Python unique. The `with` statement allows developers to write a common programming pattern in a concise and readable way. The following indented block gives a visual cue and make understanding the code easier. Understanding Context Managers is key to understanding the idea of *Pythonic* code.
 
-In this article, we will review some interesting real-world examples of their use. 
+Context Managers are usually used for allocation and releasing of resources, but that is not their only use-case. They are useful for factoring out common setup and teardown code, or any pair of operations that need to be performed before or after a procedure.
+
+In this article, I will present some interesting real-world examples of their use, and hopefully encourage budding Pythonistas to explore them.
 <!--more-->
 
 ## Context Managers in summary
@@ -357,3 +359,8 @@ with Pool(processes=4) as pool:  # start 4 worker processes
     # prints "[0, 1, 4,..., 81]"
 
 ~~~
+
+## Summary
+So in short, Context Managers can be used in a great variety of cases. Start using them now whenever you see the "setup-teardown" pattern, to write your Python code in a more Pythonic way.
+
+In future posts, we will explore Decorators and Metaclasses through examples of use as well.
