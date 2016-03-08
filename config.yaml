@@ -10,4 +10,6 @@ baseurl: "http://arnavk.com/"
 title: "Arnav Khare"
 canonifyurls: true
 theme: "hugo_theme_beg"
+disqusShortname: arnavkdotcom
+comment: true
 ...

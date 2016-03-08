@@ -9,6 +9,7 @@ series:      [ "Python in the real world" ]
 slug:        "python-context-managers"
 project_url: ""
 draft:       false
+comment:     true
 ---
 
 
