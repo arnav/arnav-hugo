@@ -58,6 +58,8 @@
             <a href="http://getpocket.com/edit?url={{ .Permalink }}&title={{ .Title }}" onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"><i class="fa fa-get-pocket"></i></a>
           </div>
 
+          {{ partial "disqus.html" . }}
+
           {{ if and (ne .Site.Params.comment false) (ne .Params.comment false) }}
           {{ with .Site.Params.disqusShortname }}
           <div class="section">
